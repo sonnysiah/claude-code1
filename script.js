@@ -293,7 +293,7 @@ class SnakeGame {
 
     setupMenuHandlers() {
         document.getElementById('startBtn').addEventListener('click', () => {
-            this.showInstructions();
+            this.startCountdown();
         });
 
         document.getElementById('instructionsBtn').addEventListener('click', () => {
