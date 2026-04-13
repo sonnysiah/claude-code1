@@ -1,0 +1,535 @@
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors */
+    --bg-dark: #0a0e27;
+    --bg-darker: #050810;
+    --primary: #00d4ff;
+    --secondary: #ff006e;
+    --player1: #ff3366;
+    --player2: #00d4ff;
+    --food: #00ff88;
+    --wall: #333333;
+    --text-light: #ffffff;
+    --text-muted: #a0a0a0;
+
+    /* Power-up colors */
+    --powerup-speed: #FFD700;
+    --powerup-slow: #DA70D6;
+    --powerup-ghost: #00CED1;
+    --powerup-double: #FF8C00;
+
+    /* Sizes */
+    --grid-size: 20;
+    --cell-size: 30px;
+    --board-size: calc(var(--grid-size) * var(--cell-size));
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-darker);
+    color: var(--text-light);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   MENU SCREENS
+   ============================================ */
+.menu-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--bg-darker) 0%, #1a1f3a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 100;
+}
+
+.menu-screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu-screen:not(.active) {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.menu-content {
+    text-align: center;
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.game-title {
+    font-size: 4rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), #00a8cc);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-light);
+    border: 2px solid var(--primary);
+}
+
+.btn-secondary:hover {
+    background: rgba(0, 212, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+/* ============================================
+   INSTRUCTIONS SCREEN
+   ============================================ */
+.instructions-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+    text-align: left;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.instruction-column h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.instruction-column p {
+    margin-bottom: 0.8rem;
+    color: var(--text-muted);
+}
+
+kbd {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.rules-section,
+.powerups-section {
+    text-align: left;
+    max-width: 500px;
+    margin: 2rem auto;
+}
+
+.rules-section h3,
+.powerups-section h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.rules-section ul {
+    list-style: none;
+}
+
+.rules-section li {
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.rules-section li::before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    color: var(--secondary);
+}
+
+.powerup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.powerup-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+}
+
+.powerup-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+/* ============================================
+   COUNTDOWN SCREEN
+   ============================================ */
+.countdown-content {
+    text-align: center;
+    animation: fadeInUp 0.6s ease;
+}
+
+.countdown-number {
+    font-size: 8rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: countdownPulse 1s ease infinite;
+}
+
+@keyframes countdownPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.countdown-content p {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+}
+
+/* ============================================
+   PAUSE OVERLAY
+   ============================================ */
+.pause-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.pause-overlay.active {
+    display: flex;
+}
+
+.pause-content {
+    text-align: center;
+    animation: fadeInUp 0.4s ease;
+}
+
+.pause-content h2 {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.pause-content p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   GAME OVER SCREEN
+   ============================================ */
+#resultTitle {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+}
+
+.score-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.player-score {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.score-label {
+    display: block;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.score-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+/* ============================================
+   GAME CONTAINER
+   ============================================ */
+.game-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-darker);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 10;
+}
+
+.game-container.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hud {
+    width: 100%;
+    padding: 1rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid rgba(0, 212, 255, 0.2);
+}
+
+.hud-section {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.hud-section.center-section {
+    justify-content: center;
+}
+
+.hud-section.player2-section {
+    justify-content: flex-end;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.player-name {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.player1-section .score {
+    color: var(--player1);
+}
+
+.player2-section .score {
+    color: var(--player2);
+}
+
+.speed-level {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.board-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 1rem;
+}
+
+.game-board {
+    border: 3px solid rgba(0, 212, 255, 0.3);
+    border-radius: 8px;
+    background: var(--bg-dark);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+    max-width: 90%;
+    max-height: 90%;
+    display: block;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    :root {
+        --cell-size: 20px;
+    }
+
+    .game-title {
+        font-size: 2.5rem;
+    }
+
+    .instructions-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .powerup-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .button-group {
+        max-width: 100%;
+    }
+
+    .hud {
+        padding: 0.8rem 1rem;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .player-name {
+        display: none;
+    }
+
+    .score {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --cell-size: 15px;
+    }
+
+    .game-title {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    #resultTitle {
+        font-size: 1.5rem;
+    }
+
+    .score-display {
+        gap: 1rem;
+    }
+
+    .score-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes scorePopup {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5) translateY(-20px);
+    }
+}
+
+.score-popup {
+    position: absolute;
+    font-weight: bold;
+    pointer-events: none;
+    animation: scorePopup 0.6s ease-out forwards;
+}

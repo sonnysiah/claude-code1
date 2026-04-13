@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 Player Snake Battle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Start Menu -->
+    <div id="startMenu" class="menu-screen active">
+        <div class="menu-content">
+            <h1 class="game-title">2 Player<br>Snake Battle</h1>
+            <p class="subtitle">Local Multiplayer Action</p>
+
+            <div class="button-group">
+                <button id="startBtn" class="btn btn-primary">Start Game</button>
+                <button id="instructionsBtn" class="btn btn-secondary">Instructions</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions Screen -->
+    <div id="instructionsScreen" class="menu-screen">
+        <div class="menu-content">
+            <h2>How to Play</h2>
+
+            <div class="instructions-content">
+                <div class="instruction-column">
+                    <h3>Player 1 (Red)</h3>
+                    <p><kbd>W</kbd> - Up</p>
+                    <p><kbd>A</kbd> - Left</p>
+                    <p><kbd>S</kbd> - Down</p>
+                    <p><kbd>D</kbd> - Right</p>
+                </div>
+
+                <div class="instruction-column">
+                    <h3>Player 2 (Blue)</h3>
+                    <p><kbd>↑</kbd> - Up</p>
+                    <p><kbd>←</kbd> - Left</p>
+                    <p><kbd>↓</kbd> - Down</p>
+                    <p><kbd>→</kbd> - Right</p>
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <h3>Game Rules</h3>
+                <ul>
+                    <li>Eat food to grow and score points</li>
+                    <li>Hit walls or yourself = Lose</li>
+                    <li>Hit opponent's snake = Lose</li>
+                    <li>Head-to-head collision = Draw</li>
+                    <li>Press <kbd>P</kbd> to Pause</li>
+                </ul>
+            </div>
+
+            <div class="powerups-section">
+                <h3>Power-Ups</h3>
+                <div class="powerup-grid">
+                    <div class="powerup-item">
+                        <span class="powerup-icon" style="background: #FFD700;"></span>
+                        <span>Speed Boost</span>
+                    </div>
+                    <div class="powerup-item">
+                        <span class="powerup-icon" style="background: #DA70D6;"></span>
+                        <span>Slow Opponent</span>
+                    </div>
+                    <div class="powerup-item">
+                        <span class="powerup-icon" style="background: #00CED1;"></span>
+                        <span>Ghost Mode</span>
+                    </div>
+                    <div class="powerup-item">
+                        <span class="powerup-icon" style="background: #FF8C00;"></span>
+                        <span>Double Points</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="backBtn" class="btn btn-primary">Back</button>
+        </div>
+    </div>
+
+    <!-- Countdown Screen -->
+    <div id="countdownScreen" class="menu-screen">
+        <div class="countdown-content">
+            <div id="countdownNumber" class="countdown-number">3</div>
+            <p>Get Ready!</p>
+        </div>
+    </div>
+
+    <!-- Pause Overlay -->
+    <div id="pauseOverlay" class="pause-overlay">
+        <div class="pause-content">
+            <h2>PAUSED</h2>
+            <p>Press <kbd>P</kbd> to resume</p>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameOverScreen" class="menu-screen">
+        <div class="menu-content">
+            <h2 id="resultTitle">Game Over</h2>
+
+            <div class="score-display">
+                <div class="player-score">
+                    <span class="score-label">Player 1</span>
+                    <span id="finalScore1" class="score-value">0</span>
+                </div>
+                <div class="player-score">
+                    <span class="score-label">Player 2</span>
+                    <span id="finalScore2" class="score-value">0</span>
+                </div>
+            </div>
+
+            <button id="restartBtn" class="btn btn-primary">Play Again</button>
+            <button id="menuBtn" class="btn btn-secondary">Main Menu</button>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div id="gameContainer" class="game-container">
+        <!-- HUD -->
+        <div class="hud">
+            <div class="hud-section player1-section">
+                <div class="player-info">
+                    <span class="player-name">Player 1</span>
+                    <span id="score1" class="score">0</span>
+                </div>
+            </div>
+
+            <div class="hud-section center-section">
+                <span id="speedLevel" class="speed-level">Speed: 1</span>
+            </div>
+
+            <div class="hud-section player2-section">
+                <div class="player-info">
+                    <span class="player-name">Player 2</span>
+                    <span id="score2" class="score">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Board -->
+        <div class="board-wrapper">
+            <canvas id="gameBoard" class="game-board"></canvas>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
